@@ -1,2 +1,2 @@
-# Lesson
-Repository set for git lessons
+# Learing
+Repository for learning content
