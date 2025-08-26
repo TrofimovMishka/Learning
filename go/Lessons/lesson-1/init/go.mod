@@ -1,4 +1,4 @@
-module lesson-1
+module lesson-1.com/main
 
 go 1.25.0
 
