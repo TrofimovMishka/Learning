@@ -97,6 +97,8 @@ func getRandomMessage() string {
 	fmt.Println(len(anSliceDefinition_1))
 	fmt.Println(len(anSliceDefinition_2))
 	fmt.Println(len(b))
+	fmt.Println("Access to array element b[0] =", b[0])
+	fmt.Println("Access to slice element formats[0] =", formats[0])
 
 	return formats[rand.Intn(len(formats))]
 }
