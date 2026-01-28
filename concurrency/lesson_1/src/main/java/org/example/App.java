@@ -162,7 +162,7 @@ class Bank {
         try{
             BigDecimal current = PRICE.get();
             if (current.compareTo(new BigDecimal("50")) > 0) {
-                // Another thread could change PRICE here!
+                // Without lock - Another thread could change PRICE here!
                 PRICE.updateAndGet(p -> p.subtract(new BigDecimal(value)));
             }
         } finally {
@@ -173,11 +173,11 @@ class Bank {
 
     // ✅ Thread-safe version
     public void complexUpdateSafe(String value) {
-        PRICE.updateAndGet(p -> {
-            if (p.compareTo(new BigDecimal("50")) > 0) {
-                return p.subtract(new BigDecimal(value));
+        PRICE.updateAndGet(price -> {
+            if (price.compareTo(new BigDecimal("50")) > 0) {
+                return price.subtract(new BigDecimal(value));
             }
-            return p; // No change
+            return price;
         });
     }
 }
