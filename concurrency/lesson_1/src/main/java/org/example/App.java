@@ -65,26 +65,26 @@ class DaemonThread {
 }
 
 class ExampleOfExecutorService {
-//    public static void main(String[] args) {
-//        try(ThreadPoolExecutor executorService = new ThreadPoolExecutor(5, 10, 500L, TimeUnit.MINUTES, App.workQueue)){
-//            executorService.submit(() -> {
-//                System.out.println("Callable in ThreadPoolExecutor");
-//                return "BOB snail";
-//            });
-//        }
-//
-//        try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(100)) {
-//            scheduledThreadPoolExecutor.execute(() -> System.out.println("Runnable in scheduledThreadPoolExecutor"));
-//        } catch (Exception ex) {
-//            System.out.println("Catch block in work");
-//        } finally {
-//            System.out.println("Finally block in work");
-//        }
-//
-//        try (ForkJoinPool fjp = new ForkJoinPool(50)) {
-//            fjp.execute(() -> System.out.println("Some task in ForkJoinPool"));
-//        }
-//    }
+    public static void main(String[] args) {
+        try(ThreadPoolExecutor executorService = new ThreadPoolExecutor(5, 10, 500L, TimeUnit.MINUTES, App.workQueue)){
+            executorService.submit(() -> {
+                System.out.println("Callable in ThreadPoolExecutor");
+                return "BOB snail";
+            });
+        }
+
+        try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(100)) {
+            scheduledThreadPoolExecutor.execute(() -> System.out.println("Runnable in scheduledThreadPoolExecutor"));
+        } catch (Exception ex) {
+            System.out.println("Catch block in work");
+        } finally {
+            System.out.println("Finally block in work");
+        }
+
+        try (ForkJoinPool fjp = new ForkJoinPool(50)) {
+            fjp.execute(() -> System.out.println("Some task in ForkJoinPool"));
+        }
+    }
 }
 
 class SynchronizedExplanation {

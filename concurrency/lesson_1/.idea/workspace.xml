@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb4ca29a-f53e-44b3-8b11-d5fe70bbcc1b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +31,7 @@
     "Application.Bank.executor": "Run",
     "Application.ExampleOfExecutorService.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.lesson_1 [clean].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -38,12 +40,12 @@
     "git-widget-placeholder": "concurrency",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/mike/Projects/Learning/concurrency/lesson_1",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.35977012"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Bank">
+  <component name="RunManager" selected="Application.ExampleOfExecutorService">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.App" />
       <module name="lesson_1" />
@@ -85,9 +87,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ExampleOfExecutorService" />
         <item itemvalue="Application.Bank" />
         <item itemvalue="Application.App" />
-        <item itemvalue="Application.ExampleOfExecutorService" />
       </list>
     </recent_temporary>
   </component>
