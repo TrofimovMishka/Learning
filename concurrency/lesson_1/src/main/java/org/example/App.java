@@ -105,7 +105,7 @@ class SynchronizedExplanation {
 }
 
 class Bank {
-    private static AtomicReference<BigDecimal> PRICE = new AtomicReference<BigDecimal>();
+    private static final AtomicReference<BigDecimal> PRICE = new AtomicReference<>();
 
     public Bank() {
         PRICE.set(new BigDecimal("8883.19199"));
@@ -151,5 +151,24 @@ class Bank {
         bank.addToPrice("81.743");
         bank.getPrice();
         bank.divideBy("1.99", "3");
+    }
+
+    // ❌ Needs synchronization for complex logic
+    public void complexUpdate(String value) {
+        BigDecimal current = PRICE.get();
+        if (current.compareTo(new BigDecimal("50")) > 0) {
+            // Another thread could change PRICE here!
+            PRICE.updateAndGet(p -> p.subtract(new BigDecimal(value)));
+        }
+    }
+
+    // ✅ Thread-safe version
+    public void complexUpdateSafe(String value) {
+        PRICE.updateAndGet(p -> {
+            if (p.compareTo(new BigDecimal("50")) > 0) {
+                return p.subtract(new BigDecimal(value));
+            }
+            return p; // No change
+        });
     }
 }
