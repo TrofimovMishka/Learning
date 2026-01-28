@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Hello world!
@@ -106,6 +108,7 @@ class SynchronizedExplanation {
 
 class Bank {
     private static final AtomicReference<BigDecimal> PRICE = new AtomicReference<>();
+    private static final Lock lock = new ReentrantLock();
 
     public Bank() {
         PRICE.set(new BigDecimal("8883.19199"));
@@ -153,13 +156,19 @@ class Bank {
         bank.divideBy("1.99", "3");
     }
 
-    // ❌ Needs synchronization for complex logic
+    // ❌ Needs synchronization for complex logic. Here used Lock API
     public void complexUpdate(String value) {
-        BigDecimal current = PRICE.get();
-        if (current.compareTo(new BigDecimal("50")) > 0) {
-            // Another thread could change PRICE here!
-            PRICE.updateAndGet(p -> p.subtract(new BigDecimal(value)));
+        lock.lock();
+        try{
+            BigDecimal current = PRICE.get();
+            if (current.compareTo(new BigDecimal("50")) > 0) {
+                // Another thread could change PRICE here!
+                PRICE.updateAndGet(p -> p.subtract(new BigDecimal(value)));
+            }
+        } finally {
+            lock.unlock();
         }
+
     }
 
     // ✅ Thread-safe version
