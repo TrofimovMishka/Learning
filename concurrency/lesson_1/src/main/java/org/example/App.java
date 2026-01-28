@@ -1,13 +1,15 @@
 package org.example;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Hello world!
  *
  */
-public class App 
-{
+public class App {
     static final BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(100);
 
     public static void main( String[] args ) throws InterruptedException, ExecutionException {
@@ -39,16 +41,17 @@ public class App
 
         boolean done;
 
-        do{
+        do {
             done = result.isDone();
             Thread.sleep(500L);
         } while (!done);
 
         String res = result.get();
 
-        System.out.println("result of callable is "+ res);
+        System.out.println("result of callable is " + res);
 
     }
+
 }
 
 class DaemonThread {
@@ -60,34 +63,34 @@ class DaemonThread {
 }
 
 class ExampleOfExecutorService {
-    public static void main(String[] args) {
-        try(ThreadPoolExecutor executorService = new ThreadPoolExecutor(5, 10, 500L, TimeUnit.MINUTES, App.workQueue)){
-            executorService.submit(() -> {
-                System.out.println("Callable in ThreadPoolExecutor");
-                return "BOB snail";
-            });
-        }
-
-        try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(100)) {
-            scheduledThreadPoolExecutor.execute(() -> System.out.println("Runnable in scheduledThreadPoolExecutor"));
-        } catch (Exception ex) {
-            System.out.println("Catch block in work");
-        } finally {
-            System.out.println("Finally block in work");
-        }
-
-        try(ForkJoinPool fjp = new ForkJoinPool(50)){
-            fjp.execute(() -> System.out.println("Some task in ForkJoinPool"));
-        }
-    }
+//    public static void main(String[] args) {
+//        try(ThreadPoolExecutor executorService = new ThreadPoolExecutor(5, 10, 500L, TimeUnit.MINUTES, App.workQueue)){
+//            executorService.submit(() -> {
+//                System.out.println("Callable in ThreadPoolExecutor");
+//                return "BOB snail";
+//            });
+//        }
+//
+//        try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(100)) {
+//            scheduledThreadPoolExecutor.execute(() -> System.out.println("Runnable in scheduledThreadPoolExecutor"));
+//        } catch (Exception ex) {
+//            System.out.println("Catch block in work");
+//        } finally {
+//            System.out.println("Finally block in work");
+//        }
+//
+//        try (ForkJoinPool fjp = new ForkJoinPool(50)) {
+//            fjp.execute(() -> System.out.println("Some task in ForkJoinPool"));
+//        }
+//    }
 }
 
-class SynchronizedExplanation{
+class SynchronizedExplanation {
 
     private static final String LOCK = "LOCK";
 
     public static void main(String[] args) {
-        synchronized(LOCK) {
+        synchronized (LOCK) {
             System.out.println("Acquire monitor of LOCK obj");
         }
     }
@@ -98,5 +101,55 @@ class SynchronizedExplanation{
 
     static synchronized void staticMethod() {
         System.out.println("The monitor is the Class object");
+    }
+}
+
+class Bank {
+    private static AtomicReference<BigDecimal> PRICE = new AtomicReference<BigDecimal>();
+
+    public Bank() {
+        PRICE.set(new BigDecimal("8883.19199"));
+    }
+
+    void getPrice(){
+        String msg = "Price = " + PRICE.get().toEngineeringString();
+        System.out.println(msg);
+    }
+
+    void addToPrice(final String value){
+        BigDecimal oldPrice = PRICE.getAndUpdate(p -> p.subtract(new BigDecimal(value)));
+        String msg = "Price = " + PRICE.get().toEngineeringString();
+        System.out.println(msg);
+        BigDecimal newPrice = PRICE.updateAndGet(p -> p.subtract(new BigDecimal(value)));
+
+        String msg1 = "oldPrice = " + oldPrice.toEngineeringString();
+        String msg2 = "newPrice = " + newPrice.toEngineeringString();
+
+        System.out.println(msg1);
+        System.out.println(msg2);
+    }
+
+    void divideBy(final String value, final String divisor){
+
+        BigDecimal resultUp = new BigDecimal(value).divide(new BigDecimal(divisor), RoundingMode.UP);
+        BigDecimal resultDown = new BigDecimal(value).divide(new BigDecimal(divisor), RoundingMode.DOWN);
+        BigDecimal resultHalfUp = new BigDecimal(value).divide(new BigDecimal(divisor), RoundingMode.HALF_UP);
+        BigDecimal resultHalfDown = new BigDecimal(value).divide(new BigDecimal(divisor), RoundingMode.HALF_DOWN);
+        BigDecimal resultHalfEven = new BigDecimal(value).divide(new BigDecimal(divisor), RoundingMode.HALF_EVEN);
+
+        System.out.println("resultUp = " + resultUp.toEngineeringString());
+        System.out.println("resultDown = " + resultDown.toEngineeringString());
+        System.out.println("resultHalfUp = " + resultHalfUp.toEngineeringString());
+        System.out.println("resultHalfDown = " + resultHalfDown.toEngineeringString());
+        System.out.println("resultHalfEven = " + resultHalfEven.toEngineeringString());
+    }
+
+    public static void main(String[] args) {
+        Bank bank = new Bank();
+
+        bank.getPrice();
+        bank.addToPrice("81.743");
+        bank.getPrice();
+        bank.divideBy("1.99", "3");
     }
 }
